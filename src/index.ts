@@ -80,11 +80,7 @@ function ensurePage(pageId: string, show: boolean, primary: boolean) {
   }
 }
 
-messages.on('onPeriodic', function() {
-  if (!currentLogin()) {
-    return;
-  }
-
+messages.on('onLogin', function() {
   // ~~ PAGES ~~
   conf.get('pages', []).forEach((pageConf) => {
     if (!anyTagMatches(pageConf.tags)) {
