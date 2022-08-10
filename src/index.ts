@@ -36,19 +36,29 @@ messages.on('onInit', () => {
       show: page.show,
       primary: page.primary,
     }
-  })
+  });
+
+  platform.log('initialized user content', originalPageStates);
 });
 
 // on exit restore original page state
 messages.on('onEnd', () => {
   Object.keys(originalPageStates).forEach((pId) => {
     const p = originalPageStates[pId];
-    env.project?.pagesManager?.pages?.find((page) => page.$modelId === pId)?._setRaw({
-      show: p.show,
-      primary: p.primary,
-    });
+    ensurePage(pId, p.show, p.primary);
   });
+
+  platform.log('terminated user content, restoring:', originalPageStates);
 });
+
+messages.on('onLogout', () => {
+  Object.keys(originalPageStates).forEach((pId) => {
+    const p = originalPageStates[pId];
+    ensurePage(pId, p.show, p.primary);
+  });
+
+  platform.log('on logout user content, restoring:', originalPageStates);
+})
 
 function ensurePage(pageId: string, show: boolean, primary: boolean) {
   if (!pageId) return;
