@@ -50,6 +50,25 @@ messages.on('onEnd', () => {
   });
 });
 
+function ensurePage(pageId: string, show: boolean, primary: boolean) {
+  if (!pageId) return;
+  const page = env.project?.pagesManager?.pages?.find((page) => page.$modelId === pageId)
+  if (!page) return;
+
+  const changes = {};
+
+  if (page.show !== show) {
+    changes['show'] = show;
+  }
+  
+  if (page.primary !== primary) {
+    changes['primary'] = primary;
+  }
+
+  if (Object.keys(changes).length > 0) {
+    page._setRaw(changes)
+  }
+}
 
 messages.on('onPeriodic', function() {
   // ~~ PAGES ~~
@@ -59,13 +78,10 @@ messages.on('onPeriodic', function() {
     }
 
     for (const pageId of (pageConf.id || [])) {
-      const page = env.project?.pagesManager?.pages?.find((page) => page.$modelId === pageId)
-      if (!page) continue;
-
       switch(pageConf.mode) {
-        case 'show': page._setRaw({show: true, primary: false}); break;
-        case 'hide': page._setRaw({show: false, primary: false}); break;
-        case 'dock': page._setRaw({show: true, primary: true}); break;
+        case 'show': ensurePage(pageId, true, false); break;
+        case 'hide': ensurePage(pageId, false, false); break;
+        case 'dock': ensurePage(pageId, true, true); break;
       }
     }
   })
