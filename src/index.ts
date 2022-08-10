@@ -41,22 +41,21 @@ messages.on('onInit', () => {
   platform.log('initialized user content', originalPageStates);
 });
 
-// on exit restore original page state
-messages.on('onEnd', () => {
+function restorePages() {
   Object.keys(originalPageStates).forEach((pId) => {
     const p = originalPageStates[pId];
     ensurePage(pId, p.show, p.primary);
   });
+}
 
+// on exit restore original page state
+messages.on('onEnd', () => {
+  restorePages();
   platform.log('terminated user content, restoring:', originalPageStates);
 });
 
 messages.on('onLogout', () => {
-  Object.keys(originalPageStates).forEach((pId) => {
-    const p = originalPageStates[pId];
-    ensurePage(pId, p.show, p.primary);
-  });
-
+  restorePages();
   platform.log('on logout user content, restoring:', originalPageStates);
 })
 
@@ -80,7 +79,12 @@ function ensurePage(pageId: string, show: boolean, primary: boolean) {
   }
 }
 
-messages.on('onLogin', function() {
+messages.on('onPeriodic', function() {
+  if (!currentLogin()) {
+    restorePages();
+    return;
+  }
+
   // ~~ PAGES ~~
   conf.get('pages', []).forEach((pageConf) => {
     if (!anyTagMatches(pageConf.tags)) {
