@@ -17,25 +17,4 @@ describe("onInit", () => {
     loadScript();
     messages.emit('onInit');
   });
-
-  it('prints "Hello, default name!"', () => {
-    const log = jest.fn();
-    platform.log = log;
-
-    loadScript();
-
-    messages.emit('onInit');
-    expect(log).toHaveBeenCalledWith('Hello, default name!');
-  });
-
-  it('prints "Hello, custom name!" if given config', () => {
-    const log = jest.fn();
-    platform.log = log;
-    getSettings = () => ({ name: 'custom name' });
-
-    loadScript();
-
-    messages.emit('onInit');
-    expect(log).toHaveBeenCalledWith('Hello, custom name!');
-  });
 });

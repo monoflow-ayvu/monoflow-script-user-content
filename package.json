@@ -2,7 +2,90 @@
   "name": "user-content",
   "version": "0.0.0",
   "description": "Habilitar/deshabilitar conteúdo para os usuários, baseado nos tags",
-  "settingsSchema": {},
+  "settingsSchema": {
+    "display": "form",
+    "settings": {
+      "pdf": {
+        "id": "1ec0f8ee-6685-5d98-a847-26f67b67d6f0",
+        "src": "https://files.form.io/pdf/5692b91fd1028f01000407e3/file/1ec0f8ee-6685-5d98-a847-26f67b67d6f0"
+      }
+    },
+    "components": [
+      {
+        "label": "Pages",
+        "reorder": true,
+        "addAnother": "Adicionar",
+        "addAnotherPosition": "bottom",
+        "layoutFixed": false,
+        "enableRowGroups": false,
+        "initEmpty": true,
+        "tableView": false,
+        "defaultValue": [
+          {
+            "tags": []
+          }
+        ],
+        "key": "pages",
+        "type": "datagrid",
+        "input": true,
+        "components": [
+          {
+            "label": "Tags",
+            "tableView": false,
+            "storeas": "array",
+            "key": "tags",
+            "type": "tags",
+            "input": true
+          },
+          {
+            "label": "Modo",
+            "widget": "choicesjs",
+            "tableView": true,
+            "defaultValue": "mostrar",
+            "data": {
+              "values": [
+                {
+                  "label": "Mostrar",
+                  "value": "show"
+                },
+                {
+                  "label": "Esconder",
+                  "value": "hide"
+                },
+                {
+                  "label": "Dock",
+                  "value": "dock"
+                }
+              ]
+            },
+            "key": "mode",
+            "type": "select",
+            "input": true
+          },
+          {
+            "label": "ID",
+            "tableView": true,
+            "multiple": true,
+            "validate": {
+              "required": true,
+              "minLength": 3
+            },
+            "key": "id",
+            "type": "textfield",
+            "input": true
+          }
+        ]
+      },
+      {
+        "type": "button",
+        "label": "Submit",
+        "key": "submit",
+        "disableOnInvalid": true,
+        "input": true,
+        "tableView": false
+      }
+    ]
+  },
   "license": "MIT",
   "private": true,
   "scripts": {
