@@ -1,6 +1,6 @@
 {
   "name": "user-content",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Habilitar/deshabilitar conteúdo para os usuários, baseado nos tags",
   "settingsSchema": {
     "display": "form",
