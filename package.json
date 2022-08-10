@@ -41,7 +41,7 @@
             "label": "Modo",
             "widget": "choicesjs",
             "tableView": true,
-            "defaultValue": "mostrar",
+            "defaultValue": "show",
             "data": {
               "values": [
                 {
